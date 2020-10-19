@@ -1,0 +1,2 @@
+void wait(int periodo);
+

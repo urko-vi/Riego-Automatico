@@ -1,0 +1,2 @@
+bool regar(int puertoAnalalogico);
+
