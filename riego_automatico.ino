@@ -8,9 +8,9 @@
 //RTC_DS1307 rtc;
 
 Teclado teclado;
-
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 2, 1, 0, 4, 5, 6, 7);
 Menu menu;
+char teclas = {'#','#'};
 void setup() {
   teclado = Teclado();
   menu = Menu();
@@ -41,17 +41,13 @@ void printDate(DateTime date)
 }
 */
 void loop() {
-
-    /*
-    lcd.setCursor(0, 0);   // ubica cursor en columna 0 y linea 0
-    lcd.print("Hola, han pasado");  // escribe el texto
-    lcd.setCursor(0, 1);    // ubica cursor en columna 0 y linea 1
-    lcd.print(millis() / 1000);   // funcion millis() / 1000 para segundos transcurridos
-    lcd.print(" seg.");     // escribe seg.
-    
-  // Print the uptime in millis
-  */
-  char key = teclado.getText();
+  char key = '';
+  if(teclas[0] == '#' && teclas[1]=='#'){
+    key = '0';
+  }
+  
+  menu.loadOption(&lcd,key);
+  key = teclado.getText();
   if (key){
     menu.loadOption(&lcd,key);
  
