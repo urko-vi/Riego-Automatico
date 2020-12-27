@@ -3,7 +3,7 @@
 class Status {
     public:
 		bool wifi;
-		bool bluetooh;
+		bool bluetooth;
 		bool agua;
 		Status();
     //private:

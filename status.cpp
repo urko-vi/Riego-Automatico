@@ -2,6 +2,6 @@
 
 Status::Status(){
     wifi = false;
-	bluetooh = false;
+	bluetooth = false;
 	agua= false;
 }

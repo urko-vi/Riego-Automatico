@@ -1,20 +1,22 @@
 #include "temperatura_humedad.h"
 #include "tierra_humeda.h"
 #include "common.h"
-#include "teclado.h"
-#include "RTClib.h"
 #include "pantalla_lcd.h"
 
 //RTC_DS1307 rtc;
-
 Teclado teclado;
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 2, 1, 0, 4, 5, 6, 7);
 Menu menu;
-char teclas = {'#','#'};
+Reloj reloj;
 void setup() {
-  teclado = Teclado();
-  menu = Menu();
+//  teclado = Teclado();
+  lcd.setBacklightPin(3,POSITIVE);  // puerto P3 de PCF8574 como positivo
+  lcd.setBacklight(HIGH);   // habilita iluminacion posterior de LCD
+  lcd.begin(20, 4);     // 16 columnas por 2 lineas para LCD 1602A
+  lcd.clear();      // limpia pantalla
+  menu = Menu(&lcd);
   Serial.begin(9600);
+
   /*
   if (!rtc.begin()) {
     Serial.println(F("Couldn't find RTC"));
@@ -41,18 +43,65 @@ void printDate(DateTime date)
 }
 */
 void loop() {
-  char key = '';
-  if(teclas[0] == '#' && teclas[1]=='#'){
-    key = '0';
+   //getText(
+   
+  char key = menu.loadOption(&lcd,'1');  
+  //key = teclado.waitForKey();
+ //key=teclado.getKey();//instruccion para leer tecla 
+  
+  if(key){
+    while(key !=' '){
+      key = teclado.waitForKey();
+      if(key == '1'  || key == '2' || key == '3'||key =='4'){
+        Serial.println("Clave");
+        Serial.println(key);
+        key = menu.loadOption(&lcd,key);
+         Serial.println(key);
+        switch(key){
+          case '1': // fecha
+           // key = ' ';
+            while(key !='*'){
+              key =menu.showFecha(&lcd,teclado,reloj);
+            }
+          break;
+          case '2':// hora
+            while(key !='*'){
+              key =menu.showHora(&lcd,teclado,reloj);
+            }
+          break;
+          case '3': //wifi
+            while(key !='*'){
+              key =menu.showWifi(&lcd,teclado);
+            }
+          break;
+          
+        }
+        key = '1';
+        menu.loadOption(&lcd,key);
+        //Serial.println(key);
+      } else {
+        Serial.println("No clave");
+
+        key = '1';
+        Serial.println(key);
+      }
+    }
   }
   
-  menu.loadOption(&lcd,key);
-  key = teclado.getText();
-  if (key){
-    menu.loadOption(&lcd,key);
- 
-  }
+    // Serial.println(key);
+//  if(menu=='1'){
+  //  key = menu;
+ // } 
    
+  //menu.loadOption(&lcd,key);
+  //
+  //Serial.println(key);
+  //if (key && teclas[0] == '*' && teclas[1]=='*'){
+  
+ //   menu.loadOption(&lcd,key);
+ 
+  //}
+  
   //DateTime now = rtc.now();
   //printDate(now);
   /*

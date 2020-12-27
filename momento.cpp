@@ -1,10 +1,10 @@
 #include "momento.h";
-
+#include <Arduino.h>
 Momento::Momento(){
 	dia = 1;
 	mes = 1;
 	anyo= 2021;
-	hora = 9;
+	hora = 0;
 	minutos= 0;
 	segundos= 0;
 	setHoraComp();
@@ -37,15 +37,20 @@ String Momento::getFechaComp(){
 }
 String Momento::getHora(){
 	String aux = "";
+		Serial.print(""+hora);
+		//Serial.print(":"+minutos);
+		//Serial.println(":"+segundos);
    if(hora > 9){
 		aux += ""+hora;
 	} else {
-		aux += "0"+hora;
+		String hour = hora == 0?"0":""+hora;
+		aux += "0"+hour;
 	}
 	if(minutos > 9){
 		aux += ":"+minutos;
 	} else{
-		aux += ":0"+minutos;
+		String minutes = minutos == 0?"0":""+minutos;
+		aux += ":0"+minutes;
 	}
 
    return aux;
@@ -55,17 +60,20 @@ void Momento::setHoraComp(){
 	if(hora > 9){
 		aux += ""+hora;
 	} else {
-		aux += "0"+hora;
+		String hour = hora == 0?"0":""+hora;
+		aux += "0"+hour;
 	}
 	if(minutos > 9){
 		aux += ":"+minutos;
 	} else{
-		aux += ":0"+minutos;
+		String minutes = minutos == 0?"0":""+minutos;
+		aux += ":0"+minutes;
 	}
 	if(segundos > 9){
 		aux += ":"+segundos;
 	} else{
-		aux += ":0"+segundos;
+		String seconds = segundos == 0?"0":""+segundos;
+		aux += ":0"+seconds;
 	}
 	horaComp = aux;
 	
