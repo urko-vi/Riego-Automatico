@@ -1,4 +1,4 @@
-#include "planta.h";
+#include "planta.h"
 
 Planta::Planta(){
     nombre = "";

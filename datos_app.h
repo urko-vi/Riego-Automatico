@@ -1,8 +1,8 @@
 #include <WString.h>
-#include "momento.h";
-#include "atmosferas.h";
-#include "plantas.h";
-#include "status.h";
+#include "momento.h"
+#include "atmosferas.h"
+#include "plantas.h"
+#include "status.h"
 class DatosApp {
     public:
 		DatosApp();
@@ -10,6 +10,7 @@ class DatosApp {
 		void setAtmosferas(Atmosferas atms);
 		Momento getMomento();
 		void setMomento(Momento moment);
+		void setMomento(DateTime *dt);
 		Plantas getPlantas();
 		void setPlantas(Plantas plants);
 		Status getStatus();

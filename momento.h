@@ -1,4 +1,5 @@
 #include <WString.h>
+#include "RTClib.h"
 
 
 class Momento {
@@ -13,6 +14,7 @@ class Momento {
 		void setHora(int hour);		
 		void setMinutos(int minutes);
 		void setSegundos(int seconds);
+		void setMomento(DateTime *dt);
     private:
         String horaComp;
         String fechaComp;

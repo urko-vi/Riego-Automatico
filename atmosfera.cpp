@@ -1,4 +1,4 @@
-#include "atmosfera.h";
+#include "atmosfera.h"
 
 Atmosfera::Atmosfera(){
     nombre = "";

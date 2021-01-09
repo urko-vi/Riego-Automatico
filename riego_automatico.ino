@@ -2,8 +2,7 @@
 #include "tierra_humeda.h"
 #include "common.h"
 #include "pantalla_lcd.h"
-
-//RTC_DS1307 rtc;
+RTC_DS3231 rtc;
 Teclado teclado;
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 2, 1, 0, 4, 5, 6, 7);
 Menu menu;
@@ -16,8 +15,27 @@ void setup() {
   lcd.clear();      // limpia pantalla
   menu = Menu(&lcd);
   Serial.begin(9600);
-
-  /*
+  delay(2000); 
+  reloj = Reloj(&rtc);
+ // menu.setFechaHora(&rtc.now());
+/*
+   if (!rtc.begin()) {
+    Serial.println(F("Couldn't find RTC"));
+    while (1);
+  } 
+  
+  
+  if (rtc.lostPower()) {
+    // Fijar a fecha y hora de compilacion
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    
+    // Fijar a fecha y hora específica. En el ejemplo, 21 de Enero de 2016 a las 03:00:00
+    // rtc.adjust(DateTime(2016, 1, 21, 3, 0, 0));
+  }
+  */
+ // 
+/*
+  
   if (!rtc.begin()) {
     Serial.println(F("Couldn't find RTC"));
     while (1);
@@ -25,7 +43,7 @@ void setup() {
   */
  // rtc.adjust(DateTime(2020, 10, 17, 18,48, 30));
 }
-/*
+
 void printDate(DateTime date)
 {
   Serial.print(date.year(), DEC);
@@ -41,18 +59,31 @@ void printDate(DateTime date)
   Serial.print(date.second(), DEC);
   Serial.println();
 }
-*/
+
 void loop() {
    //getText(
-   
-  char key = menu.loadOption(&lcd,'1');  
+  
+  char key;
   //key = teclado.waitForKey();
  //key=teclado.getKey();//instruccion para leer tecla 
+ // printDate(rtc.now());
+  //if(key){
+  while(key == NO_KEY){
+    key=teclado.getKey();
+    //aqui hay que hacer el nucleo del programa
+    //1.actualizar la fecha y la hora
+    menu.setFechaHora(&rtc.now());
+    //2.actualizar los datos de temperatura
+    //3.lecturas de humedad de la tierra y en su caso regar.
+    //4.acceder a internet y a los SW's
+    menu.loadOption(&lcd,'1');    
+    Serial.println(key);
+    delay(100);
+  }
   
-  if(key){
-    while(key !=' '){
-      key = teclado.waitForKey();
-      if(key == '1'  || key == '2' || key == '3'||key =='4'){
+  //  while(key !=' '){
+    //  key = teclado.getKey();
+  if(key == '1'  || key == '2' || key == '3'||key =='4'){
         Serial.println("Clave");
         Serial.println(key);
         key = menu.loadOption(&lcd,key);
@@ -61,12 +92,14 @@ void loop() {
           case '1': // fecha
            // key = ' ';
             while(key !='*'){
-              key =menu.showFecha(&lcd,teclado,reloj);
+             // DateTime dt = rtc.now();
+              key =menu.showFecha(&lcd,teclado,reloj,&rtc);
             }
           break;
           case '2':// hora
             while(key !='*'){
-              key =menu.showHora(&lcd,teclado,reloj);
+              // DateTime dt = rtc.now();
+              key =menu.showHora(&lcd,teclado,reloj,&rtc);
             }
           break;
           case '3': //wifi
@@ -84,9 +117,9 @@ void loop() {
 
         key = '1';
         Serial.println(key);
-      }
     }
-  }
+    //}
+  //}
   
     // Serial.println(key);
 //  if(menu=='1'){

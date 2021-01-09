@@ -42,20 +42,16 @@ char Menu::loadOption(LiquidCrystal_I2C *screen,char op){
 		break;
 		case '2':{ // ajuste fecha 
 			clean(screen);
-			//showFecha(screen);
 			clave = '1';
-			//Serial.println(option);
 		}	
 		break;		
 		case '3':{// ajuste hora 
 			clean(screen);
-			//showHora(screen);
 			clave = '2';
 		}
 		break;
 		case '4':{// ajuste wifi
 			clean(screen);
-			//showWifi(screen);
 			clave = '3';
 		}
 		break;
@@ -74,30 +70,37 @@ char Menu::showHome(LiquidCrystal_I2C *screen){
 	//screen->print("Pulse una tecla");  // escribe el texto
 	return '*';
 }
-char Menu::showFecha(LiquidCrystal_I2C *screen,Teclado keypad,Reloj reloj){
+char Menu::showFecha(LiquidCrystal_I2C *screen,Teclado keypad,Reloj reloj,RTC_DS3231 *rtc){
 	screen->setCursor(0, 0);    // ubica cursor en columna 0 y linea 2
 	screen->print(" AJUSTE FECHA");
 	screen->setCursor(0, 1);    // ubica cursor en columna 0 y linea 2
-	screen->print("");
-	screen->print("/00/");
-	screen->print(" 2020");
+	//Serial.println(rtc->day(),DEC);
+	Serial.println(reloj.getDay(),DEC);
+//	Serial.println(""+rtc->month());
+//	Serial.println(""+rtc->year());
+	screen->print(""+datos.getMomento().getFechaComp());
+	//screen->print("/"+String(reloj.getMonth(),DEC));
+	//screen->print("/"+String(reloj.getYear()));
 	screen->setCursor(0, 2);    // ubica cursor en columna 0 y linea 3
 	screen->print("");	
 	screen->setCursor(0, 3); // ubica cursor en columna 0 y linea 4 
 	screen->print("# Aceptar * Cancelar");  // escribe el texto
 	char text = keypad.waitForKey();
+	Serial.println(""+text);
 	return text;
 }
-char Menu::showHora(LiquidCrystal_I2C *screen,Teclado keypad,Reloj reloj){
+char Menu::showHora(LiquidCrystal_I2C *screen,Teclado keypad,Reloj reloj,RTC_DS3231 *rtc){
 	screen->setCursor(0, 0);    // ubica cursor en columna 0 y linea 2
 	screen->print(" AJUSTE HORA");
 	screen->setCursor(0, 1);    // ubica cursor en columna 0 y linea 2
 	//screen->print("");
+	screen->print(""+datos.getMomento().getHoraComp());
 	screen->setCursor(0, 2);    // ubica cursor en columna 0 y linea 3
 	//screen->print("3.Wifi  4.");	
 	screen->setCursor(0, 3); // ubica cursor en columna 0 y linea 4 
 	screen->print("# Aceptar * Cancelar");  // escribe el texto
 	char text = keypad.waitForKey();
+	Serial.println(""+text);
 	return text;
 }
 char Menu::showWifi(LiquidCrystal_I2C *screen,Teclado keypad){
@@ -110,7 +113,11 @@ char Menu::showWifi(LiquidCrystal_I2C *screen,Teclado keypad){
 	screen->setCursor(0, 3); // ubica cursor en columna 0 y linea 4 
 	screen->print("# Aceptar * Cancelar");  // escribe el texto
 	char text = keypad.waitForKey();
+	Serial.println(""+text);
 	return text;
+}
+void Menu::setFechaHora(DateTime *dt){
+	datos.setMomento(dt);
 }
 // Private :
 //

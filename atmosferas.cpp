@@ -1,4 +1,4 @@
-#include "atmosferas.h";
+#include "atmosferas.h"
 
 Atmosferas::Atmosferas(){
 	length = 1;

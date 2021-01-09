@@ -1,8 +1,8 @@
-#include "plantas.h";
+#include "plantas.h"
 
 Plantas::Plantas(){
 	length = 1;
-	Planta plantas[] = {Planta()};
+	//Planta plantas[] = {Planta()};
 }
 
 void Plantas::setPlantas(Planta plants[],int len){

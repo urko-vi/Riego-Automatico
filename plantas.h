@@ -1,5 +1,5 @@
 #include <WString.h>
-#include "planta.h";
+#include "planta.h"
 
 class Plantas {
     public:

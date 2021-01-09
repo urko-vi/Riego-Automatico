@@ -1,4 +1,4 @@
-#include "datos_app.h";
+#include "datos_app.h"
 
 DatosApp::DatosApp(){
 	atmosferas = Atmosferas();
@@ -18,6 +18,9 @@ Momento DatosApp::getMomento(){
 }
 void DatosApp::setMomento(Momento moment){
 	momento = moment;
+}
+void DatosApp::setMomento(DateTime *dt){
+	momento.setMomento(dt);
 }
 Plantas DatosApp::getPlantas(){
 	return plantas;
